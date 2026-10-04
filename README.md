@@ -1,20 +1,21 @@
 # ODERA Luxe
 
-Premium urban-African bespoke tailoring website with a WhatsApp-first store and SQLite product admin.
+Premium urban-African bespoke tailoring website with a WhatsApp-first store and SQLite studio admin.
 
-## Features
+## What is included
 
-- Editorial luxury homepage inspired by the approved ODERA direction
-- WhatsApp Concierge floating widget
-- WhatsApp-first product store: no conventional checkout; every product can be ordered via WhatsApp
-- SQLite database using `better-sqlite3`
-- Protected admin dashboard at `/admin`
-- Create, edit, delete products
-- Update price, currency, category, description, image path, badge, availability and featured status
-- Responsive mobile layout
-- Local temporary imagery in `public/images/` ready to be replaced by your ODERA images
+1. Real ODERA photography wired into hero, collections, lookbook, journal and product seed data.
+2. WhatsApp-first shopping bag with one consolidated enquiry message.
+3. SQLite product catalog with indexed products and enquiry/order pipeline.
+4. Protected `/admin` studio for product CRUD, pricing, descriptions, availability, featured placement and image selection.
+5. `/collections/men` and `/collections/women` collection pages.
+6. `/look/[slug]` individual look/product pages.
+7. WhatsApp enquiry references such as `OD-AB12CD34` saved before WhatsApp opens.
+8. Admin enquiry tracking: new → contacted → fitting → confirmed → completed/cancelled.
+9. SQLite WAL/SHM artifacts ignored by Git and seed data synchronized with current ODERA imagery.
+10. Next.js production build configuration and current App Router dynamic route patterns.
 
-## Run locally
+## Local setup
 
 ```bash
 npm install
@@ -25,32 +26,24 @@ npm run dev
 
 Open `http://localhost:3000` and `http://localhost:3000/admin`.
 
-Default development credentials from `.env.example`:
-
-- Email: `admin@odera.luxe`
-- Password: `change-this-password`
-
-**Change the password and SESSION_SECRET before any real deployment.**
+Change `ADMIN_PASSWORD` and `SESSION_SECRET` before real deployment.
 
 ## WhatsApp
 
-Set the number in `.env.local` as digits only with country code:
+Set `NEXT_PUBLIC_WHATSAPP_NUMBER` to digits only with the Nigerian country code, for example:
 
 ```env
-NEXT_PUBLIC_WHATSAPP_NUMBER=000000000000
+NEXT_PUBLIC_WHATSAPP_NUMBER=2348061542075
 ```
 
-The site generates product-specific WhatsApp messages containing the product name, price, category and an availability/size request.
+The store creates an enquiry record first, then opens WhatsApp with the reference, selected pieces, prices, customer details and requested next steps.
 
 ## Images
 
-Replace these temporary files with your real brand photography while keeping the same filenames, or update the image path from the admin dashboard:
+The current ODERA repository contains the uploaded files under `public/images/` using the WhatsApp-export filenames. The code references the files directly with URL-encoded spaces, so no image renaming is required.
 
-`hero.jpg`, `signature.jpg`, `men.jpg`, `women.jpg`, `bespoke.jpg`, `look1.jpg`–`look4.jpg`, `journal1.jpg`–`journal3.jpg`.
+The admin image picker exposes the current ODERA image set for product assignment.
 
-## SQLite production note
+## SQLite deployment note
 
-This implementation intentionally uses SQLite as requested. A local or persistent-server deployment is ideal. Standard serverless Vercel functions do **not** provide a persistent writable filesystem, so do not treat a local `.sqlite` file as production persistence on Vercel. If ODERA will be deployed on Vercel, the same data layer can later be moved to Turso/libSQL or another persistent SQL provider without changing the storefront UX.
-
-`public/images/design-reference.png` is the temporary visual reference used to build this first version. It can be removed when your real ODERA assets are uploaded.
-# odera-luxe
+SQLite is intentionally used for a simple studio/admin workflow. A writable local/server filesystem is required for persistence. Standard Vercel serverless functions do not provide persistent writable SQLite storage. If this site is deployed on Vercel, move the same schema/data layer to Turso/libSQL or another persistent SQL provider.
