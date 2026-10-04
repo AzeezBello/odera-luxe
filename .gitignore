@@ -26,7 +26,7 @@ CLAUDE.md
 .claude/
 
 
-*.db
-*.db-shm
-*.db-wal
-.DS_Store
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+
